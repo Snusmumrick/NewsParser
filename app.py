@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import Flask
 import sqlite3
 from flask import jsonify
@@ -81,7 +84,11 @@ def update():
     Метод API позволяющий обновить БД не по таймеру, а принудительно
     :return:
     """
-    loadData()
+    try:
+        loadData()
+        return jsonify({"Status":"updated"})
+    except Exception as e:
+        return jsonify({"Error of update": str(e)})
 
 # Создание процесса фонового обновления БД
 scheduler = BackgroundScheduler()
@@ -89,8 +96,8 @@ scheduler.add_job(func=loadData, trigger="interval", seconds = MINUTES*60)
 scheduler.start()
 
 # Инициализация и запуск
+generateDB()
+loadData()
 if __name__ == "__main__":
-    generateDB()
-    loadData()
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0",port = 8000)
 

@@ -22,6 +22,7 @@ def getInfoFromSite(url = "https://news.ycombinator.com/"):
         return [(post['href'], post.contents[0]) for post in news]
     except Exception as e:
         logging.error(str(e))
+        return []
 
 def generateDB(dbname = "news.db"):
     """
