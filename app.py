@@ -37,7 +37,7 @@ def checkParams(order,limit,offset):
         raise Exception("Limit should be integer")
     try:
         offset = int(offset)
-    except:
+    except ValueError:
         raise Exception("Offset should be integer")
     return True
 
@@ -90,14 +90,14 @@ def update():
     except Exception as e:
         return jsonify({"Error of update": str(e)})
 
-# Создание процесса фонового обновления БД
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=loadData, trigger="interval", seconds = MINUTES*60)
-scheduler.start()
 
-# Инициализация и запуск
-generateDB()
-loadData()
 if __name__ == "__main__":
+    # Создание процесса фонового обновления БД
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func=loadData, trigger="interval", seconds = MINUTES*60)
+    scheduler.start()
+    # Инициализация и запуск
+    generateDB()
+    loadData()
     app.run(host="0.0.0.0",port = 8000)
 
