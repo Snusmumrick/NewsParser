@@ -2,5 +2,5 @@ Flask==1.0.2
 APScheduler==3.6.1
 requests==2.11.1
 beautifulsoup4==4.7.1
-lxml==4.4.1
+lxml==4.6.2
 gunicorn==19.9.0
